@@ -1,0 +1,76 @@
+{
+  "annotations": {
+    "changelogDate": "20241010043104"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "query",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "additionalParams",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "dateCreated",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastUpdated",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Search",
+  "relationships": [
+    {
+      "otherEntityName": "searchResult",
+      "otherEntityRelationshipName": "search",
+      "relationshipName": "searchResult",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "search",
+      "relationshipName": "tag",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "search",
+      "relationshipName": "comment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "searchConfiguration",
+      "relationshipName": "configuration",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "createdBy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "context",
+      "relationshipName": "context",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "thingType",
+      "relationshipName": "type",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

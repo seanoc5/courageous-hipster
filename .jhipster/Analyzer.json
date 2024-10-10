@@ -1,0 +1,67 @@
+{
+  "annotations": {
+    "changelogDate": "20241010043058"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "label",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "TextBlob"
+    },
+    {
+      "documentation": "closure type groovy code to be run)",
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateCreated",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastUpdated",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Analyzer",
+  "relationships": [
+    {
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "analyzer",
+      "relationshipName": "tag",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "createdBy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "context",
+      "relationshipName": "context",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "searchConfiguration",
+      "relationshipName": "searchConfiguration",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "searchResult",
+      "relationshipName": "searchResult",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

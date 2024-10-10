@@ -1,0 +1,196 @@
+entity Analyzer {
+	label String required
+    description TextBlob
+    /** closure type groovy code to be run) */
+    code String
+
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+entity Comment {
+	label String required
+    description String
+    url String
+    dateCreated Instant
+    lastUpdate Instant
+}
+
+entity Content {
+	title String required
+    uri String required
+  	/** snippets back from search engine, or summary from ML, or actual 'description' from author/publisher */
+    description TextBlob
+
+    /** url or file path */
+    path String
+    /** site or machine name */
+    source String
+    /** any additional parameters, such as url query params, where relevant (optional) */
+    params String
+
+    /** extracted text from source document (typically fetched by ContentService.fetchContent(contentDoc) */
+    bodyText TextBlob
+    textSize Long
+    /** html/xml version typically, but perhaps other (markdown, json,...) */
+    structuredContent TextBlob
+    structureSize Long
+
+    author String
+    language String
+
+    type String
+    subtype String
+    mineType String
+
+    publishDate Instant
+    /** originally added to capture Brave api 'family_friendly' flag info... */
+    offensiveFlag String
+    favicon String
+    dateCreated Instant
+    lastUpdate Instant
+}
+
+entity ContentFragment {
+	label String required
+    text TextBlob
+    description TextBlob
+    structuredContent TextBlob
+    startPos Long
+    endPos Long
+    startTermNum Long
+    endTermNum Long
+    subtype String
+    language String
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+entity Context {
+	label String required
+    description String
+    level String
+    time String
+    location String
+    intent String
+    defaultContext Boolean
+    dateCreated Instant
+    lastUpdate Instant
+}
+
+entity Organization {
+	name String required
+    url String
+    description TextBlob
+
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+entity Search {
+	query String required
+    additionalParams TextBlob
+
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+entity SearchConfiguration {
+	label String required
+    description String
+    defaultConfig Boolean
+    url String
+
+    paramsJson TextBlob
+    headersJson TextBlob
+
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+entity SearchResult {
+	query String required
+    type String
+    responseBody TextBlob
+    statusCode Integer
+
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+entity Tag {
+	label String required
+    description String
+    defaultTag Boolean
+
+	dateCreated Instant
+    lastUpdated Instant
+}
+
+entity ThingType {
+	label String required
+    parentClass String
+    descrption String
+
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+entity Topic {
+	label String
+    description String
+    defaultTopic Boolean
+    level Integer
+
+    dateCreated Instant
+    lastUpdated Instant
+}
+
+relationship OneToMany {
+	Analyzer to Tag{analyzer}
+  Content to ContentFragment{content}
+  Content to Tag{content}
+    Content to Comment{content}
+    ContentFragment to Tag{contentFragment}
+    ContentFragment to Comment{contentFragment}
+    Context to Analyzer{context}
+    Context to Tag{context}
+    Context to ContentFragment{context}
+    Context to Comment{context}
+    Organization to Context{organization}
+    Organization to Tag{organization}
+    Organization to Comment{organization}
+    Search to SearchResult{search}
+    Search to Tag{search}
+    Search to Comment{search}
+    SearchConfiguration to Tag{searchConfiguration}
+    SearchConfiguration to Comment{searchConfiguration}
+    SearchConfiguration to Analyzer{searchConfiguration}
+	SearchResult to Content{searchResult}
+    SearchResult to Tag{searchResult}
+    SearchResult to Comment{searchResult}
+    SearchResult to Analyzer{searchResult}
+	Tag to Comment{tag}
+    ThingType to Tag{thingType}
+    ThingType to Comment{thingType}
+	Topic to Comment{topic}
+    Topic to ContentFragment{topic}
+    Topic to Tag{topic}
+}
+
+relationship ManyToOne {
+	Analyzer{createdBy} to User with builtInEntity
+    Comment{user} to User with builtInEntity
+    ContentFragment{type} to ThingType
+    Context{createdBy} to User with builtInEntity
+    Search{configuration} to SearchConfiguration
+    Search{createdBy} to User with builtInEntity
+    Search{context} to Context
+    Search{type} to ThingType
+    SearchConfiguration{createdBy} to User with builtInEntity
+    SearchResult{config} to SearchConfiguration
+	  Tag{createdBy} to User with builtInEntity
+    Topic{createdBy} to User with builtInEntity
+}
+
+service all with serviceImpl

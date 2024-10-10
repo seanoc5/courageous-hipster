@@ -1,0 +1,65 @@
+{
+  "annotations": {
+    "changelogDate": "20241010043109"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "label",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defaultTopic",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "level",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "dateCreated",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastUpdated",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Topic",
+  "relationships": [
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "topic",
+      "relationshipName": "comment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "contentFragment",
+      "otherEntityRelationshipName": "topic",
+      "relationshipName": "contentFragment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "topic",
+      "relationshipName": "tag",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "createdBy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity Search.
+    -->
+    <changeSet id="20241010043104-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="configuration_id"
+                                 baseTableName="search"
+                                 constraintName="fk_search__configuration_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search_configuration"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="created_by_id"
+                                 baseTableName="search"
+                                 constraintName="fk_search__created_by_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="context_id"
+                                 baseTableName="search"
+                                 constraintName="fk_search__context_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="context"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="search"
+                                 constraintName="fk_search__type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="thing_type"
+                                 />
+    </changeSet>
+</databaseChangeLog>

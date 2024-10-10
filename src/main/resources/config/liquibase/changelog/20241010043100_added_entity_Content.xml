@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Content.
+    -->
+    <changeSet id="20241010043100-1" author="jhipster">
+        <createTable tableName="content">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="uri" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="${clobType}" remarks="snippets back from search engine, or summary from ML, or actual &apos;description&apos; from author/publisher">
+                <constraints nullable="true" />
+            </column>
+            <column name="path" type="varchar(255)" remarks="url or file path">
+                <constraints nullable="true" />
+            </column>
+            <column name="source" type="varchar(255)" remarks="site or machine name">
+                <constraints nullable="true" />
+            </column>
+            <column name="params" type="varchar(255)" remarks="any additional parameters, such as url query params, where relevant (optional)">
+                <constraints nullable="true" />
+            </column>
+            <column name="body_text" type="${clobType}" remarks="extracted text from source document (typically fetched by ContentService.fetchContent(contentDoc)">
+                <constraints nullable="true" />
+            </column>
+            <column name="text_size" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="structured_content" type="${clobType}" remarks="html/xml version typically, but perhaps other (markdown, json,...)">
+                <constraints nullable="true" />
+            </column>
+            <column name="structure_size" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="author" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="language" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="subtype" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mine_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="publish_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="offensive_flag" type="varchar(255)" remarks="originally added to capture Brave api &apos;family_friendly&apos; flag info...">
+                <constraints nullable="true" />
+            </column>
+            <column name="favicon" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="date_created" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="last_update" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="search_result_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="content" columnName="publish_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="content" columnName="date_created" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="content" columnName="last_update" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20241010043100-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/content.csv"
+                  separator=";"
+                  tableName="content"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="title" type="string"/>
+            <column name="uri" type="string"/>
+            <column name="description" type="clob"/>
+            <column name="path" type="string"/>
+            <column name="source" type="string"/>
+            <column name="params" type="string"/>
+            <column name="body_text" type="clob"/>
+            <column name="text_size" type="numeric"/>
+            <column name="structured_content" type="clob"/>
+            <column name="structure_size" type="numeric"/>
+            <column name="author" type="string"/>
+            <column name="language" type="string"/>
+            <column name="type" type="string"/>
+            <column name="subtype" type="string"/>
+            <column name="mine_type" type="string"/>
+            <column name="publish_date" type="date"/>
+            <column name="offensive_flag" type="string"/>
+            <column name="favicon" type="string"/>
+            <column name="date_created" type="date"/>
+            <column name="last_update" type="date"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

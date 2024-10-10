@@ -1,0 +1,78 @@
+{
+  "annotations": {
+    "changelogDate": "20241010043106"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "query",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "responseBody",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "statusCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "dateCreated",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastUpdated",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "SearchResult",
+  "relationships": [
+    {
+      "otherEntityName": "content",
+      "otherEntityRelationshipName": "searchResult",
+      "relationshipName": "content",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "searchResult",
+      "relationshipName": "tag",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "searchResult",
+      "relationshipName": "comment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "analyzer",
+      "otherEntityRelationshipName": "searchResult",
+      "relationshipName": "analyzer",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "searchConfiguration",
+      "relationshipName": "config",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "search",
+      "relationshipName": "search",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

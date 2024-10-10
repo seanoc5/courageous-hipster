@@ -1,0 +1,100 @@
+{
+  "annotations": {
+    "changelogDate": "20241010043101"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "label",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "text",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "structuredContent",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "startPos",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "endPos",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "startTermNum",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "endTermNum",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "subtype",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateCreated",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastUpdated",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "ContentFragment",
+  "relationships": [
+    {
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "contentFragment",
+      "relationshipName": "tag",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "contentFragment",
+      "relationshipName": "comment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "thingType",
+      "relationshipName": "type",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "content",
+      "relationshipName": "content",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "context",
+      "relationshipName": "context",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "topic",
+      "relationshipName": "topic",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

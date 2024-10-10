@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity Tag.
+    -->
+    <changeSet id="20241010043107-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="created_by_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__created_by_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="analyzer_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__analyzer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="analyzer"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="content_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__content_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="content"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="content_fragment_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__content_fragment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="content_fragment"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="context_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__context_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="context"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="organization_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__organization_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="organization"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__search_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_configuration_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__search_configuration_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search_configuration"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_result_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__search_result_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search_result"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="thing_type_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__thing_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="thing_type"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="topic_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_tag__topic_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="topic"
+                                 />
+    </changeSet>
+</databaseChangeLog>
