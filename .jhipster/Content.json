@@ -1,0 +1,129 @@
+{
+  "annotations": {
+    "changelogDate": "20241010043100"
+  },
+  "applications": "*",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "uri",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "documentation": "snippets back from search engine, or summary from ML, or actual 'description' from author/publisher",
+      "fieldName": "description",
+      "fieldType": "TextBlob"
+    },
+    {
+      "documentation": "url or file path",
+      "fieldName": "path",
+      "fieldType": "String"
+    },
+    {
+      "documentation": "site or machine name",
+      "fieldName": "source",
+      "fieldType": "String"
+    },
+    {
+      "documentation": "any additional parameters, such as url query params, where relevant (optional)",
+      "fieldName": "params",
+      "fieldType": "String"
+    },
+    {
+      "documentation": "extracted text from source document (typically fetched by ContentService.fetchContent(contentDoc)",
+      "fieldName": "bodyText",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "textSize",
+      "fieldType": "Long"
+    },
+    {
+      "documentation": "html/xml version typically, but perhaps other (markdown, json,...)",
+      "fieldName": "structuredContent",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "structureSize",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "author",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "subtype",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mineType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "publishDate",
+      "fieldType": "Instant"
+    },
+    {
+      "documentation": "originally added to capture Brave api 'family_friendly' flag info...",
+      "fieldName": "offensiveFlag",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "favicon",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateCreated",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastUpdate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Content",
+  "relationships": [
+    {
+      "otherEntityName": "contentFragment",
+      "otherEntityRelationshipName": "content",
+      "relationshipName": "contentFragment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tag",
+      "otherEntityRelationshipName": "content",
+      "relationshipName": "tag",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "content",
+      "relationshipName": "comment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "searchResult",
+      "relationshipName": "searchResult",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

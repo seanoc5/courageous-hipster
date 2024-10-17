@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity Comment.
+    -->
+    <changeSet id="20241010043059-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="content_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__content_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="content"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="content_fragment_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__content_fragment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="content_fragment"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="context_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__context_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="context"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="organization_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__organization_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="organization"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__search_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_configuration_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__search_configuration_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search_configuration"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_result_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__search_result_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search_result"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="tag_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__tag_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tag"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="thing_type_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__thing_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="thing_type"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="topic_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__topic_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="topic"
+                                 />
+    </changeSet>
+</databaseChangeLog>

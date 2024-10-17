@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity SearchResult.
+    -->
+    <changeSet id="20241010043106-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="config_id"
+                                 baseTableName="search_result"
+                                 constraintName="fk_search_result__config_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search_configuration"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_id"
+                                 baseTableName="search_result"
+                                 constraintName="fk_search_result__search_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search"
+                                 />
+    </changeSet>
+</databaseChangeLog>

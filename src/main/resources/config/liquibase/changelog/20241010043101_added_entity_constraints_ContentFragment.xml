@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <!--
+        Added the constraints for entity ContentFragment.
+    -->
+    <changeSet id="20241010043101-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="content_fragment"
+                                 constraintName="fk_content_fragment__type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="thing_type"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="content_id"
+                                 baseTableName="content_fragment"
+                                 constraintName="fk_content_fragment__content_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="content"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="context_id"
+                                 baseTableName="content_fragment"
+                                 constraintName="fk_content_fragment__context_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="context"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="topic_id"
+                                 baseTableName="content_fragment"
+                                 constraintName="fk_content_fragment__topic_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="topic"
+                                 />
+    </changeSet>
+</databaseChangeLog>
