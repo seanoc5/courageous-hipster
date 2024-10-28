@@ -32,7 +32,6 @@ public class Analyzer implements Serializable {
     @Column(name = "label", nullable = false)
     private String label;
 
-    @Lob
     @Column(name = "description")
     private String description;
 

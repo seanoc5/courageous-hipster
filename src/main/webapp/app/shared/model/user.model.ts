@@ -21,7 +21,7 @@ export const defaultValue: Readonly<IUser> = {
   lastName: '',
   email: '',
   activated: true,
-  langKey: '',
+  langKey: 'en',
   authorities: [],
   createdBy: '',
   createdDate: null,

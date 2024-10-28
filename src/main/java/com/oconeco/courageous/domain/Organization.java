@@ -34,7 +34,6 @@ public class Organization implements Serializable {
     @Column(name = "url")
     private String url;
 
-    @Lob
     @Column(name = "description")
     private String description;
 

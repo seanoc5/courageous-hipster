@@ -31,7 +31,6 @@ public class Search implements Serializable {
     @Column(name = "query", nullable = false)
     private String query;
 
-    @Lob
     @Column(name = "additional_params")
     private String additionalParams;
 
