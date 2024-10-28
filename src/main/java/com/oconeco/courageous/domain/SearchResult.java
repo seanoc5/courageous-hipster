@@ -34,7 +34,6 @@ public class SearchResult implements Serializable {
     @Column(name = "type")
     private String type;
 
-    @Lob
     @Column(name = "response_body")
     private String responseBody;
 

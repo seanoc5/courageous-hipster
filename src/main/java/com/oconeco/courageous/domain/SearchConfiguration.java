@@ -40,11 +40,9 @@ public class SearchConfiguration implements Serializable {
     @Column(name = "url")
     private String url;
 
-    @Lob
     @Column(name = "params_json")
     private String paramsJson;
 
-    @Lob
     @Column(name = "headers_json")
     private String headersJson;
 

@@ -31,15 +31,12 @@ public class ContentFragment implements Serializable {
     @Column(name = "label", nullable = false)
     private String label;
 
-    @Lob
     @Column(name = "text")
     private String text;
 
-    @Lob
     @Column(name = "description")
     private String description;
 
-    @Lob
     @Column(name = "structured_content")
     private String structuredContent;
 
