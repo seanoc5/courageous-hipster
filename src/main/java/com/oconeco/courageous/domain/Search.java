@@ -45,7 +45,8 @@ public class Search implements Serializable {
     @JsonIgnoreProperties(value = { "contents", "tags", "comments", "analyzers", "config", "search" }, allowSetters = true)
     private Set<SearchResult> searchResults = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "search")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "rel_search__tags", joinColumns = @JoinColumn(name = "search_id"), inverseJoinColumns = @JoinColumn(name = "tags_id"))
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
         value = {
@@ -56,11 +57,11 @@ public class Search implements Serializable {
             "contentFragment",
             "context",
             "organization",
-            "search",
             "searchConfiguration",
             "searchResult",
             "thingType",
             "topic",
+            "searches",
         },
         allowSetters = true
     )
@@ -86,9 +87,15 @@ public class Search implements Serializable {
     )
     private Set<Comment> comments = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy" }, allowSetters = true)
-    private SearchConfiguration configuration;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "rel_search__configurations",
+        joinColumns = @JoinColumn(name = "search_id"),
+        inverseJoinColumns = @JoinColumn(name = "configurations_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy", "searches" }, allowSetters = true)
+    private Set<SearchConfiguration> configurations = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User createdBy;
@@ -204,12 +211,6 @@ public class Search implements Serializable {
     }
 
     public void setTags(Set<Tag> tags) {
-        if (this.tags != null) {
-            this.tags.forEach(i -> i.setSearch(null));
-        }
-        if (tags != null) {
-            tags.forEach(i -> i.setSearch(this));
-        }
         this.tags = tags;
     }
 
@@ -218,15 +219,13 @@ public class Search implements Serializable {
         return this;
     }
 
-    public Search addTag(Tag tag) {
+    public Search addTags(Tag tag) {
         this.tags.add(tag);
-        tag.setSearch(this);
         return this;
     }
 
-    public Search removeTag(Tag tag) {
+    public Search removeTags(Tag tag) {
         this.tags.remove(tag);
-        tag.setSearch(null);
         return this;
     }
 
@@ -261,16 +260,26 @@ public class Search implements Serializable {
         return this;
     }
 
-    public SearchConfiguration getConfiguration() {
-        return this.configuration;
+    public Set<SearchConfiguration> getConfigurations() {
+        return this.configurations;
     }
 
-    public void setConfiguration(SearchConfiguration searchConfiguration) {
-        this.configuration = searchConfiguration;
+    public void setConfigurations(Set<SearchConfiguration> searchConfigurations) {
+        this.configurations = searchConfigurations;
     }
 
-    public Search configuration(SearchConfiguration searchConfiguration) {
-        this.setConfiguration(searchConfiguration);
+    public Search configurations(Set<SearchConfiguration> searchConfigurations) {
+        this.setConfigurations(searchConfigurations);
+        return this;
+    }
+
+    public Search addConfigurations(SearchConfiguration searchConfiguration) {
+        this.configurations.add(searchConfiguration);
+        return this;
+    }
+
+    public Search removeConfigurations(SearchConfiguration searchConfiguration) {
+        this.configurations.remove(searchConfiguration);
         return this;
     }
 

@@ -33,10 +33,10 @@
     },
     {
       "otherEntityName": "tag",
-      "otherEntityRelationshipName": "search",
-      "relationshipName": "tag",
+      "otherEntityRelationshipName": "searches",
+      "relationshipName": "tags",
       "relationshipSide": "left",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "comment",
@@ -47,9 +47,9 @@
     },
     {
       "otherEntityName": "searchConfiguration",
-      "relationshipName": "configuration",
+      "relationshipName": "configurations",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "user",
@@ -72,5 +72,6 @@
     }
   ],
   "searchEngine": "no",
-  "service": "serviceImpl"
+  "service": "serviceImpl",
+  "skipClient": true
 }

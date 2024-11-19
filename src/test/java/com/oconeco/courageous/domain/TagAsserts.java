@@ -68,12 +68,12 @@ public class TagAsserts {
             .satisfies(e -> assertThat(e.getContentFragment()).as("check contentFragment").isEqualTo(actual.getContentFragment()))
             .satisfies(e -> assertThat(e.getContext()).as("check context").isEqualTo(actual.getContext()))
             .satisfies(e -> assertThat(e.getOrganization()).as("check organization").isEqualTo(actual.getOrganization()))
-            .satisfies(e -> assertThat(e.getSearch()).as("check search").isEqualTo(actual.getSearch()))
             .satisfies(
                 e -> assertThat(e.getSearchConfiguration()).as("check searchConfiguration").isEqualTo(actual.getSearchConfiguration())
             )
             .satisfies(e -> assertThat(e.getSearchResult()).as("check searchResult").isEqualTo(actual.getSearchResult()))
             .satisfies(e -> assertThat(e.getThingType()).as("check thingType").isEqualTo(actual.getThingType()))
-            .satisfies(e -> assertThat(e.getTopic()).as("check topic").isEqualTo(actual.getTopic()));
+            .satisfies(e -> assertThat(e.getTopic()).as("check topic").isEqualTo(actual.getTopic()))
+            .satisfies(e -> assertThat(e.getSearches()).as("check searches").isEqualTo(actual.getSearches()));
     }
 }

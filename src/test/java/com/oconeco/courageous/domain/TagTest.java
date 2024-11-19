@@ -118,18 +118,6 @@ class TagTest {
     }
 
     @Test
-    void searchTest() {
-        Tag tag = getTagRandomSampleGenerator();
-        Search searchBack = getSearchRandomSampleGenerator();
-
-        tag.setSearch(searchBack);
-        assertThat(tag.getSearch()).isEqualTo(searchBack);
-
-        tag.search(null);
-        assertThat(tag.getSearch()).isNull();
-    }
-
-    @Test
     void searchConfigurationTest() {
         Tag tag = getTagRandomSampleGenerator();
         SearchConfiguration searchConfigurationBack = getSearchConfigurationRandomSampleGenerator();
@@ -175,5 +163,27 @@ class TagTest {
 
         tag.topic(null);
         assertThat(tag.getTopic()).isNull();
+    }
+
+    @Test
+    void searchesTest() {
+        Tag tag = getTagRandomSampleGenerator();
+        Search searchBack = getSearchRandomSampleGenerator();
+
+        tag.addSearches(searchBack);
+        assertThat(tag.getSearches()).containsOnly(searchBack);
+        assertThat(searchBack.getTags()).containsOnly(tag);
+
+        tag.removeSearches(searchBack);
+        assertThat(tag.getSearches()).doesNotContain(searchBack);
+        assertThat(searchBack.getTags()).doesNotContain(tag);
+
+        tag.searches(new HashSet<>(Set.of(searchBack)));
+        assertThat(tag.getSearches()).containsOnly(searchBack);
+        assertThat(searchBack.getTags()).containsOnly(tag);
+
+        tag.setSearches(new HashSet<>());
+        assertThat(tag.getSearches()).doesNotContain(searchBack);
+        assertThat(searchBack.getTags()).doesNotContain(tag);
     }
 }

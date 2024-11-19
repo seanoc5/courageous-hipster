@@ -73,12 +73,6 @@
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityName": "search",
-      "relationshipName": "search",
-      "relationshipSide": "right",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityName": "searchConfiguration",
       "relationshipName": "searchConfiguration",
       "relationshipSide": "right",
@@ -104,5 +98,6 @@
     }
   ],
   "searchEngine": "no",
-  "service": "serviceImpl"
+  "service": "serviceImpl",
+  "skipClient": true
 }

@@ -62,7 +62,8 @@ public class SearchAsserts {
     public static void assertSearchUpdatableRelationshipsEquals(Search expected, Search actual) {
         assertThat(expected)
             .as("Verify Search relationships")
-            .satisfies(e -> assertThat(e.getConfiguration()).as("check configuration").isEqualTo(actual.getConfiguration()))
+            .satisfies(e -> assertThat(e.getTags()).as("check tags").isEqualTo(actual.getTags()))
+            .satisfies(e -> assertThat(e.getConfigurations()).as("check configurations").isEqualTo(actual.getConfigurations()))
             .satisfies(e -> assertThat(e.getContext()).as("check context").isEqualTo(actual.getContext()))
             .satisfies(e -> assertThat(e.getType()).as("check type").isEqualTo(actual.getType()));
     }

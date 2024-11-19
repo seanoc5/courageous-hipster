@@ -313,3 +313,87 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+/* ==========================================================================
+CSS Styles for custom autocomplete
+========================================================================== */
+
+/* Tag styles within Autocomplete */
+.custom-autocomplete .MuiAutocomplete-tag {
+  margin: 3px;
+  height: fit-content;
+  max-width: calc(100% - 6px);
+}
+
+/* Override delete icon size within chips */
+.custom-autocomplete .MuiChip-deleteIcon {
+  font-size: 1rem !important;
+}
+
+/* Style focus state */
+.custom-autocomplete .Mui-focused .MuiOutlinedInput-root {
+  border-color: var(--bs-form-valid-border-color);
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
+}
+
+/* Adjust input padding and icon */
+.custom-autocomplete .MuiOutlinedInput-root.MuiAutocomplete-inputRoot {
+  padding: 0 0.5rem;
+}
+
+/* Background icon settings */
+.custom-autocomplete .MuiInputBase-root {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  appearance: none;
+  padding: 0;
+}
+
+/* Hide the clear and popup icons */
+.custom-autocomplete .MuiAutocomplete-endAdornment {
+  display: none;
+}
+
+/* ==========================================================================
+CSS Styles for custom autocomplete
+========================================================================== */
+
+/* Tag styles within Autocomplete */
+.custom-autocomplete .MuiAutocomplete-tag {
+  margin: 3px;
+  height: fit-content;
+  max-width: calc(100% - 6px);
+}
+
+/* Override delete icon size within chips */
+.custom-autocomplete .MuiChip-deleteIcon {
+  font-size: 1rem !important;
+}
+
+/* Style focus state */
+.custom-autocomplete .Mui-focused .MuiOutlinedInput-root {
+  border-color: var(--bs-form-valid-border-color);
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
+}
+
+/* Adjust input padding and icon */
+.custom-autocomplete .MuiOutlinedInput-root.MuiAutocomplete-inputRoot {
+  padding: 0 0.5rem;
+}
+
+/* Background icon settings */
+.custom-autocomplete .MuiInputBase-root {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  appearance: none;
+  padding: 0;
+}
+
+/* Hide the clear and popup icons */
+.custom-autocomplete .MuiAutocomplete-endAdornment {
+  display: none;
+}

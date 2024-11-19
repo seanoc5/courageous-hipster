@@ -87,14 +87,7 @@ public class Tag implements Serializable {
     private Organization organization;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(
-        value = { "searchResults", "tags", "comments", "configuration", "createdBy", "context", "type" },
-        allowSetters = true
-    )
-    private Search search;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy", "searches" }, allowSetters = true)
     private SearchConfiguration searchConfiguration;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -108,6 +101,14 @@ public class Tag implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "comments", "contentFragments", "tags", "createdBy" }, allowSetters = true)
     private Topic topic;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "tags")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(
+        value = { "searchResults", "tags", "comments", "configurations", "createdBy", "context", "type" },
+        allowSetters = true
+    )
+    private Set<Search> searches = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -298,19 +299,6 @@ public class Tag implements Serializable {
         return this;
     }
 
-    public Search getSearch() {
-        return this.search;
-    }
-
-    public void setSearch(Search search) {
-        this.search = search;
-    }
-
-    public Tag search(Search search) {
-        this.setSearch(search);
-        return this;
-    }
-
     public SearchConfiguration getSearchConfiguration() {
         return this.searchConfiguration;
     }
@@ -360,6 +348,37 @@ public class Tag implements Serializable {
 
     public Tag topic(Topic topic) {
         this.setTopic(topic);
+        return this;
+    }
+
+    public Set<Search> getSearches() {
+        return this.searches;
+    }
+
+    public void setSearches(Set<Search> searches) {
+        if (this.searches != null) {
+            this.searches.forEach(i -> i.removeTags(this));
+        }
+        if (searches != null) {
+            searches.forEach(i -> i.addTags(this));
+        }
+        this.searches = searches;
+    }
+
+    public Tag searches(Set<Search> searches) {
+        this.setSearches(searches);
+        return this;
+    }
+
+    public Tag addSearches(Search search) {
+        this.searches.add(search);
+        search.getTags().add(this);
+        return this;
+    }
+
+    public Tag removeSearches(Search search) {
+        this.searches.remove(search);
+        search.getTags().remove(this);
         return this;
     }
 

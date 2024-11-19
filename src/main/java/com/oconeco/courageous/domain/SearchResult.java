@@ -62,11 +62,11 @@ public class SearchResult implements Serializable {
             "contentFragment",
             "context",
             "organization",
-            "search",
             "searchConfiguration",
             "searchResult",
             "thingType",
             "topic",
+            "searches",
         },
         allowSetters = true
     )
@@ -98,12 +98,12 @@ public class SearchResult implements Serializable {
     private Set<Analyzer> analyzers = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy", "searches" }, allowSetters = true)
     private SearchConfiguration config;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
-        value = { "searchResults", "tags", "comments", "configuration", "createdBy", "context", "type" },
+        value = { "searchResults", "tags", "comments", "configurations", "createdBy", "context", "type" },
         allowSetters = true
     )
     private Search search;

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,11 +71,15 @@ public class SearchServiceImpl implements SearchService {
         return searchRepository.findAll();
     }
 
+    public Page<Search> findAllWithEagerRelationships(Pageable pageable) {
+        return searchRepository.findAllWithEagerRelationships(pageable);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<Search> findOne(Long id) {
         LOG.debug("Request to get Search : {}", id);
-        return searchRepository.findById(id);
+        return searchRepository.findOneWithEagerRelationships(id);
     }
 
     @Override

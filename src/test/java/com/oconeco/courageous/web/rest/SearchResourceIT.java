@@ -4,6 +4,7 @@ import static com.oconeco.courageous.domain.SearchAsserts.*;
 import static com.oconeco.courageous.web.rest.TestUtil.createUpdateProxyForBean;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -12,16 +13,23 @@ import com.oconeco.courageous.IntegrationTest;
 import com.oconeco.courageous.domain.Search;
 import com.oconeco.courageous.repository.SearchRepository;
 import com.oconeco.courageous.repository.UserRepository;
+import com.oconeco.courageous.service.SearchService;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link SearchResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class SearchResourceIT {
@@ -61,6 +70,12 @@ class SearchResourceIT {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Mock
+    private SearchRepository searchRepositoryMock;
+
+    @Mock
+    private SearchService searchServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -184,6 +199,23 @@ class SearchResourceIT {
             .andExpect(jsonPath("$.[*].additionalParams").value(hasItem(DEFAULT_ADDITIONAL_PARAMS.toString())))
             .andExpect(jsonPath("$.[*].dateCreated").value(hasItem(DEFAULT_DATE_CREATED.toString())))
             .andExpect(jsonPath("$.[*].lastUpdated").value(hasItem(DEFAULT_LAST_UPDATED.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllSearchesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(searchServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restSearchMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(searchServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllSearchesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(searchServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restSearchMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(searchRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
