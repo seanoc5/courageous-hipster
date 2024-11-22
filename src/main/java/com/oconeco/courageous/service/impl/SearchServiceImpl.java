@@ -68,11 +68,15 @@ public class SearchServiceImpl implements SearchService {
     @Transactional(readOnly = true)
     public List<Search> findAll() {
         LOG.debug("Request to get all Searches");
-        return searchRepository.findAll();
+        return findAllWithEagerRelationships();
     }
 
     public Page<Search> findAllWithEagerRelationships(Pageable pageable) {
         return searchRepository.findAllWithEagerRelationships(pageable);
+    }
+
+    public List<Search> findAllWithEagerRelationships() {
+        return searchRepository.findAllWithEagerRelationships();
     }
 
     @Override

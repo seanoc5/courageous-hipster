@@ -24,7 +24,7 @@ public class SearchRepositoryWithBagRelationshipsImpl implements SearchRepositor
 
     @Override
     public Optional<Search> fetchBagRelationships(Optional<Search> search) {
-        return search.map(this::fetchConfigurations);
+        return search.map(this::fetchConfigurationsAndTags);
     }
 
     @Override
@@ -34,23 +34,36 @@ public class SearchRepositoryWithBagRelationshipsImpl implements SearchRepositor
 
     @Override
     public List<Search> fetchBagRelationships(List<Search> searches) {
-        return Optional.of(searches).map(this::fetchConfigurations).orElse(Collections.emptyList());
+        return Optional.of(searches).map(this::fetchConfigurationsAndTags).orElse(Collections.emptyList());
     }
 
-    Search fetchConfigurations(Search result) {
+    Search fetchConfigurationsAndTags(Search result) {
         return entityManager
-            .createQuery("select search from Search search left join fetch search.configurations where search.id = :id", Search.class)
+            .createQuery(
+                "select search from Search search " +
+                "left join fetch search.configurations " +
+                "left join fetch search.tags " +
+                "where search.id = :id",
+                Search.class
+            )
             .setParameter(ID_PARAMETER, result.getId())
             .getSingleResult();
     }
 
-    List<Search> fetchConfigurations(List<Search> searches) {
+    List<Search> fetchConfigurationsAndTags(List<Search> searches) {
         HashMap<Object, Integer> order = new HashMap<>();
         IntStream.range(0, searches.size()).forEach(index -> order.put(searches.get(index).getId(), index));
         List<Search> result = entityManager
-            .createQuery("select search from Search search left join fetch search.configurations where search in :searches", Search.class)
-            .setParameter(SEARCHES_PARAMETER, searches)
+            .createQuery(
+                "select search from Search search " +
+                "left join fetch search.configurations " +
+                "left join fetch search.tags " +
+                "where search in :searches",
+                Search.class
+            )
+            .setParameter("searches", searches)
             .getResultList();
+
         Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
         return result;
     }
