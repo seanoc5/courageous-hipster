@@ -93,4 +93,9 @@ public class SearchConfigurationServiceImpl implements SearchConfigurationServic
         LOG.debug("Request to delete SearchConfiguration : {}", id);
         searchConfigurationRepository.deleteById(id);
     }
+
+    @Override
+    public SearchConfiguration findById(Long id) {
+        return searchConfigurationRepository.findById(id).get();
+    }
 }

@@ -53,4 +53,11 @@ public interface SearchConfigurationService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /**
+     * Find  by "id" searchConfiguration.
+     *
+     * @param id the label of the entity.
+     */
+    SearchConfiguration findById(Long id);
 }

@@ -106,3 +106,13 @@ jhipster:
 # ===================================================================
 
 # application:
+brave:
+  search:
+    api:
+      url: ${BRAVE_SEARCH_API_URL}
+      results: ${BRAVE_SEARCH_API_RESULTS}
+
+# Path to store downloaded html
+location:
+  folder:
+    path: ${CONTENT_DIR}

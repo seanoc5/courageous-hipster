@@ -35,9 +35,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/CourageousSearch
-    username: CourageousSearch
-    password:
+    url: jdbc:postgresql://localhost:5432/courageoussearch
+    username: ${DATABASE_NAME}
+    password: ${DATABASE_PASSWORD}
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -106,3 +106,13 @@ jhipster:
 # ===================================================================
 
 # application:
+brave:
+  search:
+    api:
+      url: ${BRAVE_SEARCH_API_URL}
+      results: ${BRAVE_SEARCH_API_RESULTS}
+
+# Path to store downloaded html
+location:
+  folder:
+    path: ${CONTENT_DIR}

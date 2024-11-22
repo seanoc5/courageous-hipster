@@ -3,21 +3,28 @@ package com.oconeco.courageous.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Content.
  */
+
 @Entity
 @Table(name = "content")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Content implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +47,7 @@ public class Content implements Serializable {
      * snippets back from search engine, or summary from ML, or actual 'description' from author/publisher
      */
     @Schema(description = "snippets back from search engine, or summary from ML, or actual 'description' from author/publisher")
-    @Column(name = "description")
+    @Column(name = "description", length = 1024)
     private String description;
 
     /**
@@ -68,7 +75,7 @@ public class Content implements Serializable {
      * extracted text from source document (typically fetched by ContentService.fetchContent(contentDoc)
      */
     @Schema(description = "extracted text from source document (typically fetched by ContentService.fetchContent(contentDoc)")
-    @Column(name = "body_text")
+    @Column(name = "body_text", length = 1024)
     private String bodyText;
 
     @Column(name = "text_size")
