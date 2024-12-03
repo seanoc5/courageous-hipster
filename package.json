@@ -69,12 +69,13 @@
     "packaging": "jar"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
     "@fortawesome/fontawesome-svg-core": "6.5.2",
     "@fortawesome/free-solid-svg-icons": "6.5.2",
     "@fortawesome/react-fontawesome": "0.2.0",
-    "@mui/material": "^6.1.6",
+    "@mui/icons-material": "^6.1.9",
+    "@mui/material": "^6.1.9",
     "@reduxjs/toolkit": "2.2.3",
     "ajv": "^6.0.0",
     "ajv-keywords": "^3.5.2",
