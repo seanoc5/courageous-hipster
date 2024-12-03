@@ -34,6 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SearchServiceImpl implements SearchService {
 
+    @Value("${brave.search.api.results}")
+    private int MAX_RESULTS;
+
     private final FetcherService fetcherService;
 
     private static final Logger LOG = LoggerFactory.getLogger(SearchServiceImpl.class);
@@ -42,9 +45,6 @@ public class SearchServiceImpl implements SearchService {
     private final ContentRepository contentRepository;
     private final BraveSearchClient braveSearchClient;
     private final SearchRepository searchRepository;
-
-    @Value("${brave.search.api.results}")
-    private int MAX_RESULTS;
 
     @Autowired
     public SearchServiceImpl(
@@ -65,7 +65,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public Search save(Search search) {
-        performSearch(search);
+        search.setDateCreated(Instant.now());
+        search.setLastUpdated(Instant.now());
         return searchRepository.save(search);
     }
 
@@ -136,17 +137,26 @@ public class SearchServiceImpl implements SearchService {
      * Trigger asynchronous content fetching
      * To get data from brave client done with  restTemplate-> passed doc Jsoup.parse
      */
-    private SearchResult performSearch(Search searchRequest) {
+    @Override
+    public SearchResult performSearch(Search searchRequest) {
+        if (searchRequest.getConfigurations().isEmpty()) {
+            throw new IllegalArgumentException("Configurations cannot be empty");
+        }
+
+        // Extract the first configuration and its headersJson
         SearchConfiguration config = searchConfigurationService.findById(new ArrayList<>(searchRequest.getConfigurations()).get(0).getId());
 
-        //  Perform Brave API search future needed api AUTH token but as of now without token
-        BraveSearchResponseDTO apiResponse = braveSearchClient.search(searchRequest.getQuery());
+        String headersJson = config.getHeadersJson();
+        if (headersJson == null || headersJson.isEmpty()) {
+            throw new IllegalStateException("Headers JSON cannot be null or empty");
+        }
+
+        BraveSearchResponseDTO apiResponse = braveSearchClient.search(searchRequest.getQuery(), headersJson);
 
         List<Content> contents = apiResponse.getResults().stream().limit(MAX_RESULTS).map(this::createContent).collect(Collectors.toList());
 
         SearchResult searchResult = saveSearchResult(searchRequest, apiResponse, contents, config);
 
-        // async content fetching and processing
         fetcherService.fetchContentForSearch(searchResult);
 
         return searchResult;
@@ -157,6 +167,7 @@ public class SearchServiceImpl implements SearchService {
             .uri(result.getUrl())
             .title(result.getTitle())
             .description(result.getDescription())
+            .favicon(result.getFaviconSrc())
             .dateCreated(Instant.now())
             .lastUpdate(Instant.now())
             .build();
@@ -168,6 +179,10 @@ public class SearchServiceImpl implements SearchService {
         List<Content> contents,
         SearchConfiguration config
     ) {
+        // Save the search entity first, if it is not already saved
+        if (searchRequest.getId() == null) {
+            searchRequest = searchRepository.save(searchRequest);
+        }
         SearchResult searchResult = new SearchResult();
         searchResult.setQuery(searchRequest.getQuery());
         searchResult.setType(response.getType());

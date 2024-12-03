@@ -47,7 +47,7 @@ public class Content implements Serializable {
      * snippets back from search engine, or summary from ML, or actual 'description' from author/publisher
      */
     @Schema(description = "snippets back from search engine, or summary from ML, or actual 'description' from author/publisher")
-    @Column(name = "description", length = 1024)
+    @Column(name = "description")
     private String description;
 
     /**
@@ -75,7 +75,7 @@ public class Content implements Serializable {
      * extracted text from source document (typically fetched by ContentService.fetchContent(contentDoc)
      */
     @Schema(description = "extracted text from source document (typically fetched by ContentService.fetchContent(contentDoc)")
-    @Column(name = "body_text", length = 1024)
+    @Column(name = "body_text")
     private String bodyText;
 
     @Column(name = "text_size")

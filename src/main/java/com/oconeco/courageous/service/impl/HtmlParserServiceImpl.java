@@ -27,7 +27,6 @@ public class HtmlParserServiceImpl implements HtmlParserService {
         for (Element resultElement : document.select("div.snippet")) {
             //to limit the result to 20
             if (results.size() > MAX_SEARCH_RESULTS) break;
-
             String title = resultElement.select("div.title").text();
             String url = resultElement.select("a").attr("href");
 
@@ -45,8 +44,15 @@ public class HtmlParserServiceImpl implements HtmlParserService {
                     description = "No description available";
                 }
             }
-
             resultDTO.setDescription(description);
+
+            // Extract favicon src
+            String faviconSrc = resultElement.select("div.favicon-wrapper img.favicon").attr("src");
+            if (faviconSrc != null && !faviconSrc.isEmpty()) {
+                resultDTO.setFaviconSrc(faviconSrc);
+            } else {
+                resultDTO.setFaviconSrc("No favicon available");
+            }
 
             results.add(resultDTO);
         }

@@ -5,6 +5,7 @@ public class BraveSearchResultDTO {
     private String url;
     private String title;
     private String description;
+    private String faviconSrc;
 
     // Getters and Setters
     public String getUrl() {
@@ -29,5 +30,13 @@ public class BraveSearchResultDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getFaviconSrc() {
+        return faviconSrc;
+    }
+
+    public void setFaviconSrc(String faviconSrc) {
+        this.faviconSrc = faviconSrc;
     }
 }
