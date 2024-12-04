@@ -3,21 +3,28 @@ package com.oconeco.courageous.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Content.
  */
+
 @Entity
 @Table(name = "content")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Content implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -134,11 +141,11 @@ public class Content implements Serializable {
             "contentFragment",
             "context",
             "organization",
-            "search",
             "searchConfiguration",
             "searchResult",
             "thingType",
             "topic",
+            "searches",
         },
         allowSetters = true
     )

@@ -1,6 +1,8 @@
 package com.oconeco.courageous.web.rest;
 
+import com.oconeco.courageous.domain.Content;
 import com.oconeco.courageous.domain.Search;
+import com.oconeco.courageous.domain.SearchResult;
 import com.oconeco.courageous.repository.SearchRepository;
 import com.oconeco.courageous.service.SearchService;
 import com.oconeco.courageous.web.rest.errors.BadRequestAlertException;
@@ -11,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -133,10 +136,11 @@ public class SearchResource {
     /**
      * {@code GET  /searches} : get all the searches.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of searches in body.
      */
     @GetMapping("")
-    public List<Search> getAllSearches() {
+    public List<Search> getAllSearches(@RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload) {
         LOG.debug("REST request to get all Searches");
         return searchService.findAll();
     }
@@ -167,5 +171,20 @@ public class SearchResource {
         return ResponseEntity.noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Set<Content>> search(@Valid @RequestBody Search search) throws URISyntaxException {
+        LOG.debug("REST request to Search : {}", search);
+
+        // Perform the search and retrieve the result
+        SearchResult result = searchService.performSearch(search);
+
+        if (result == null || result.getContents() == null) {
+            throw new BadRequestAlertException("Search result is empty", ENTITY_NAME, "noresults");
+        }
+        return ResponseEntity.created(new URI("/api/searches/search"))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, search.getId().toString()))
+            .body(result.getContents());
     }
 }

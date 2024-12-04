@@ -26,9 +26,6 @@
             <column name="last_updated" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="configuration_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="created_by_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -42,6 +39,31 @@
         </createTable>
         <dropDefaultValue tableName="search" columnName="date_created" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="search" columnName="last_updated" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <changeSet id="20241010043104-1-relations" author="jhipster">
+
+        <createTable tableName="rel_search__tags">
+            <column name="tags_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="search_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="search_id, tags_id" tableName="rel_search__tags"/>
+
+        <createTable tableName="rel_search__configurations">
+            <column name="configurations_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="search_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="search_id, configurations_id" tableName="rel_search__configurations"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

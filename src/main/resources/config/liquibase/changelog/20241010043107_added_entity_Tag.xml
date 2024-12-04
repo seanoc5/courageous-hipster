@@ -47,9 +47,6 @@
             <column name="organization_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="search_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="search_configuration_id" type="bigint">
                 <constraints nullable="true" />
             </column>

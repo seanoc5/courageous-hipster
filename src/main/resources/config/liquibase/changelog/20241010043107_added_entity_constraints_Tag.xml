@@ -52,13 +52,6 @@
                                  referencedTableName="organization"
                                  />
 
-        <addForeignKeyConstraint baseColumnNames="search_id"
-                                 baseTableName="tag"
-                                 constraintName="fk_tag__search_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="search"
-                                 />
-
         <addForeignKeyConstraint baseColumnNames="search_configuration_id"
                                  baseTableName="tag"
                                  constraintName="fk_tag__search_configuration_id"

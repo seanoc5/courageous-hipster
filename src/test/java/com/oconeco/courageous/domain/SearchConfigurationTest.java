@@ -3,6 +3,7 @@ package com.oconeco.courageous.domain;
 import static com.oconeco.courageous.domain.AnalyzerTestSamples.*;
 import static com.oconeco.courageous.domain.CommentTestSamples.*;
 import static com.oconeco.courageous.domain.SearchConfigurationTestSamples.*;
+import static com.oconeco.courageous.domain.SearchTestSamples.*;
 import static com.oconeco.courageous.domain.TagTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -91,5 +92,27 @@ class SearchConfigurationTest {
         searchConfiguration.setAnalyzers(new HashSet<>());
         assertThat(searchConfiguration.getAnalyzers()).doesNotContain(analyzerBack);
         assertThat(analyzerBack.getSearchConfiguration()).isNull();
+    }
+
+    @Test
+    void searchTest() {
+        SearchConfiguration searchConfiguration = getSearchConfigurationRandomSampleGenerator();
+        Search searchBack = getSearchRandomSampleGenerator();
+
+        searchConfiguration.addSearch(searchBack);
+        assertThat(searchConfiguration.getSearches()).containsOnly(searchBack);
+        assertThat(searchBack.getConfigurations()).containsOnly(searchConfiguration);
+
+        searchConfiguration.removeSearch(searchBack);
+        assertThat(searchConfiguration.getSearches()).doesNotContain(searchBack);
+        assertThat(searchBack.getConfigurations()).doesNotContain(searchConfiguration);
+
+        searchConfiguration.searches(new HashSet<>(Set.of(searchBack)));
+        assertThat(searchConfiguration.getSearches()).containsOnly(searchBack);
+        assertThat(searchBack.getConfigurations()).containsOnly(searchConfiguration);
+
+        searchConfiguration.setSearches(new HashSet<>());
+        assertThat(searchConfiguration.getSearches()).doesNotContain(searchBack);
+        assertThat(searchBack.getConfigurations()).doesNotContain(searchConfiguration);
     }
 }

@@ -64,6 +64,8 @@ public class SearchConfigurationAsserts {
      * @param actual the actual entity
      */
     public static void assertSearchConfigurationUpdatableRelationshipsEquals(SearchConfiguration expected, SearchConfiguration actual) {
-        // empty method
+        assertThat(expected)
+            .as("Verify SearchConfiguration relationships")
+            .satisfies(e -> assertThat(e.getSearches()).as("check searches").isEqualTo(actual.getSearches()));
     }
 }

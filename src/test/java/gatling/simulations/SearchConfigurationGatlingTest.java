@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Performance test for the SearchConfiguration entity.
  *
- * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.7.1/generators/gatling#logging-tips">Logging tips</a>
+ * @see <a href="https://github.com/jhipster/generator-jhipster/tree/v8.7.3/generators/gatling#logging-tips">Logging tips</a>
  */
 public class SearchConfigurationGatlingTest extends Simulation {
 

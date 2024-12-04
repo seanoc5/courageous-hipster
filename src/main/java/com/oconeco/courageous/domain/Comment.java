@@ -62,13 +62,13 @@ public class Comment implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(
-        value = { "searchResults", "tags", "comments", "configuration", "createdBy", "context", "type" },
+        value = { "searchResults", "tags", "comments", "configurations", "createdBy", "context", "type" },
         allowSetters = true
     )
     private Search search;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy", "searches" }, allowSetters = true)
     private SearchConfiguration searchConfiguration;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -85,11 +85,11 @@ public class Comment implements Serializable {
             "contentFragment",
             "context",
             "organization",
-            "search",
             "searchConfiguration",
             "searchResult",
             "thingType",
             "topic",
+            "searches",
         },
         allowSetters = true
     )

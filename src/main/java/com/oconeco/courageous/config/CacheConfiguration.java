@@ -91,6 +91,9 @@ public class CacheConfiguration {
             createCache(cm, com.oconeco.courageous.domain.Topic.class.getName() + ".comments");
             createCache(cm, com.oconeco.courageous.domain.Topic.class.getName() + ".contentFragments");
             createCache(cm, com.oconeco.courageous.domain.Topic.class.getName() + ".tags");
+            createCache(cm, com.oconeco.courageous.domain.Search.class.getName() + ".configurations");
+            createCache(cm, com.oconeco.courageous.domain.SearchConfiguration.class.getName() + ".searches");
+            createCache(cm, com.oconeco.courageous.domain.Tag.class.getName() + ".searches");
             // jhipster-needle-ehcache-add-entry
         };
     }

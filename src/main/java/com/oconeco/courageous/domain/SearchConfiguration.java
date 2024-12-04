@@ -63,11 +63,11 @@ public class SearchConfiguration implements Serializable {
             "contentFragment",
             "context",
             "organization",
-            "search",
             "searchConfiguration",
             "searchResult",
             "thingType",
             "topic",
+            "searches",
         },
         allowSetters = true
     )
@@ -100,6 +100,14 @@ public class SearchConfiguration implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User createdBy;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "configurations")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(
+        value = { "searchResults", "tags", "comments", "configurations", "createdBy", "context", "type" },
+        allowSetters = true
+    )
+    private Set<Search> searches = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -323,6 +331,37 @@ public class SearchConfiguration implements Serializable {
 
     public SearchConfiguration createdBy(User user) {
         this.setCreatedBy(user);
+        return this;
+    }
+
+    public Set<Search> getSearches() {
+        return this.searches;
+    }
+
+    public void setSearches(Set<Search> searches) {
+        if (this.searches != null) {
+            this.searches.forEach(i -> i.removeConfigurations(this));
+        }
+        if (searches != null) {
+            searches.forEach(i -> i.addConfigurations(this));
+        }
+        this.searches = searches;
+    }
+
+    public SearchConfiguration searches(Set<Search> searches) {
+        this.setSearches(searches);
+        return this;
+    }
+
+    public SearchConfiguration addSearch(Search search) {
+        this.searches.add(search);
+        search.getConfigurations().add(this);
+        return this;
+    }
+
+    public SearchConfiguration removeSearch(Search search) {
+        this.searches.remove(search);
+        search.getConfigurations().remove(this);
         return this;
     }
 

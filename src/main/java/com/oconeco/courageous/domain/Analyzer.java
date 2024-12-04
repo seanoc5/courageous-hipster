@@ -59,11 +59,11 @@ public class Analyzer implements Serializable {
             "contentFragment",
             "context",
             "organization",
-            "search",
             "searchConfiguration",
             "searchResult",
             "thingType",
             "topic",
+            "searches",
         },
         allowSetters = true
     )
@@ -77,7 +77,7 @@ public class Analyzer implements Serializable {
     private Context context;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "tags", "comments", "analyzers", "createdBy", "searches" }, allowSetters = true)
     private SearchConfiguration searchConfiguration;
 
     @ManyToOne(fetch = FetchType.LAZY)

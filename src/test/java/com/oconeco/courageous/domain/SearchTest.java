@@ -53,25 +53,21 @@ class SearchTest {
     }
 
     @Test
-    void tagTest() {
+    void tagsTest() {
         Search search = getSearchRandomSampleGenerator();
         Tag tagBack = getTagRandomSampleGenerator();
 
-        search.addTag(tagBack);
+        search.addTags(tagBack);
         assertThat(search.getTags()).containsOnly(tagBack);
-        assertThat(tagBack.getSearch()).isEqualTo(search);
 
-        search.removeTag(tagBack);
+        search.removeTags(tagBack);
         assertThat(search.getTags()).doesNotContain(tagBack);
-        assertThat(tagBack.getSearch()).isNull();
 
         search.tags(new HashSet<>(Set.of(tagBack)));
         assertThat(search.getTags()).containsOnly(tagBack);
-        assertThat(tagBack.getSearch()).isEqualTo(search);
 
         search.setTags(new HashSet<>());
         assertThat(search.getTags()).doesNotContain(tagBack);
-        assertThat(tagBack.getSearch()).isNull();
     }
 
     @Test
@@ -97,15 +93,21 @@ class SearchTest {
     }
 
     @Test
-    void configurationTest() {
+    void configurationsTest() {
         Search search = getSearchRandomSampleGenerator();
         SearchConfiguration searchConfigurationBack = getSearchConfigurationRandomSampleGenerator();
 
-        search.setConfiguration(searchConfigurationBack);
-        assertThat(search.getConfiguration()).isEqualTo(searchConfigurationBack);
+        search.addConfigurations(searchConfigurationBack);
+        assertThat(search.getConfigurations()).containsOnly(searchConfigurationBack);
 
-        search.configuration(null);
-        assertThat(search.getConfiguration()).isNull();
+        search.removeConfigurations(searchConfigurationBack);
+        assertThat(search.getConfigurations()).doesNotContain(searchConfigurationBack);
+
+        search.configurations(new HashSet<>(Set.of(searchConfigurationBack)));
+        assertThat(search.getConfigurations()).containsOnly(searchConfigurationBack);
+
+        search.setConfigurations(new HashSet<>());
+        assertThat(search.getConfigurations()).doesNotContain(searchConfigurationBack);
     }
 
     @Test

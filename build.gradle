@@ -118,6 +118,16 @@ configurations {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'io.projectreactor.netty:reactor-netty'
+    implementation 'io.netty:netty-handler'
+    implementation 'io.projectreactor:reactor-core'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    implementation group: 'net.dankito.readability4j', name: 'readability4j', version: '1.0.8'
+
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hppc"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
     testImplementation("com.tngtech.archunit:archunit-junit5-api:${archunitJunit5Version}") {
@@ -162,6 +172,7 @@ dependencies {
     annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
     implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
     implementation "com.zaxxer:HikariCP"
+    implementation group: 'org.htmlunit', name: 'htmlunit', version: '4.7.0'
     annotationProcessor "org.glassfish.jaxb:jaxb-runtime"
     testImplementation "org.testcontainers:jdbc"
     testImplementation "org.testcontainers:junit-jupiter"

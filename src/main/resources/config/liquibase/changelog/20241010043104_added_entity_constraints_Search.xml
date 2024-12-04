@@ -10,9 +10,30 @@
     -->
     <changeSet id="20241010043104-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="configuration_id"
-                                 baseTableName="search"
-                                 constraintName="fk_search__configuration_id"
+        <addForeignKeyConstraint baseColumnNames="search_id"
+                                 baseTableName="rel_search__tags"
+                                 constraintName="fk_rel_search__tags__search_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="tags_id"
+                                 baseTableName="rel_search__tags"
+                                 constraintName="fk_rel_search__tags__tags_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tag"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="search_id"
+                                 baseTableName="rel_search__configurations"
+                                 constraintName="fk_rel_search__configurations__search_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="search"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="configurations_id"
+                                 baseTableName="rel_search__configurations"
+                                 constraintName="fk_rel_search__configurations__configurations_id"
                                  referencedColumnNames="id"
                                  referencedTableName="search_configuration"
                                  />

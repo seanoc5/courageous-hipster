@@ -32,7 +32,7 @@
     ],
     "feignClient": null,
     "gradleEnterpriseHost": null,
-    "jhipsterVersion": "8.7.1",
+    "jhipsterVersion": "8.7.3",
     "jwtSecretKey": "M2FjZTE0ODhjNzdkNGEyNjdlMzg5MjU4MmI1MDY5YTE2Y2IwODMxNjJiOGNjZWQ2Yzk0ZTljNWZjZGM2OTM3OGJiMDg2NWQ2YzJjNjYwMGU4YTEyYjA3ZjI2ZDViODBiY2NmYzIwODE5NGNmNjY0NTUzMWE0MmM5MzUwMDdmMjU=",
     "lastLiquibaseTimestamp": 1728534669000,
     "messageBroker": false,

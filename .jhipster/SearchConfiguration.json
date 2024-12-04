@@ -70,5 +70,6 @@
     }
   ],
   "searchEngine": "no",
-  "service": "serviceImpl"
+  "service": "serviceImpl",
+  "skipClient": true
 }
