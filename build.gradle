@@ -172,6 +172,7 @@ dependencies {
     annotationProcessor "org.hibernate.orm:hibernate-jpamodelgen"
     implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
     implementation "com.zaxxer:HikariCP"
+    implementation group: 'org.htmlunit', name: 'htmlunit', version: '4.7.0'
     annotationProcessor "org.glassfish.jaxb:jaxb-runtime"
     testImplementation "org.testcontainers:jdbc"
     testImplementation "org.testcontainers:junit-jupiter"

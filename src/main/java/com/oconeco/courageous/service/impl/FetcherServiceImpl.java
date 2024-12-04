@@ -3,12 +3,11 @@ package com.oconeco.courageous.service.impl;
 import com.oconeco.courageous.domain.Content;
 import com.oconeco.courageous.domain.SearchResult;
 import com.oconeco.courageous.repository.ContentRepository;
-import com.oconeco.courageous.repository.SearchResultRepository;
 import com.oconeco.courageous.service.FetcherService;
+import com.oconeco.courageous.service.WebPageDownloadService;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,7 +18,6 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import net.dankito.readability4j.Article;
 import net.dankito.readability4j.Readability4J;
@@ -42,13 +40,15 @@ public class FetcherServiceImpl implements FetcherService {
     private static final Logger LOG = LoggerFactory.getLogger(FetcherServiceImpl.class);
     private final ContentRepository contentRepository;
     private final WebClient webClient;
+    private final WebPageDownloadService webPageDownloadService;
 
     @Value("${location.folder.path}")
     private String CONTENT_DIR;
 
-    public FetcherServiceImpl(ContentRepository contentRepository, SearchResultRepository searchResultRepository, WebClient webClient) {
+    public FetcherServiceImpl(ContentRepository contentRepository, WebClient webClient, WebPageDownloadService webPageDownloadService) {
         this.contentRepository = contentRepository;
         this.webClient = webClient;
+        this.webPageDownloadService = webPageDownloadService;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class FetcherServiceImpl implements FetcherService {
             .getContents()
             .stream()
             .map(content -> CompletableFuture.runAsync(() -> downloadAndProcess(content), executor))
-            .collect(Collectors.toList());
+            .toList();
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
@@ -83,12 +83,22 @@ public class FetcherServiceImpl implements FetcherService {
             .timeout(Duration.ofSeconds(10))
             .onErrorResume(e -> {
                 LOG.error("Error fetching content for URI: {}", content.getUri(), e);
+                retryDownload(content);
                 markContentAsFailed(content);
                 return Mono.empty();
             })
             .flatMap(html -> processHtml(content, html))
             .doOnError(e -> LOG.error("Processing error for content ID: {}", content.getId(), e))
             .subscribe();
+    }
+
+    private void retryDownload(Content content) {
+        try {
+            String htmlData = webPageDownloadService.download(content.getUri());
+            processHtml(content, htmlData).subscribe();
+        } catch (Exception e) {
+            LOG.error("Error fetching content for URI: {}", content.getUri(), e);
+        }
     }
 
     private Mono<Void> processHtml(Content content, String html) {
@@ -146,7 +156,7 @@ public class FetcherServiceImpl implements FetcherService {
     private void saveHtmlToFile(Content content, String html) throws IOException {
         Path filePath = Paths.get(CONTENT_DIR, "content_" + content.getId() + ".html");
         Files.createDirectories(filePath.getParent());
-        Files.write(filePath, html.getBytes(StandardCharsets.UTF_8));
+        Files.writeString(filePath, html);
     }
 
     private void markContentAsFailed(Content content) {
