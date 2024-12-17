@@ -2,13 +2,14 @@ package com.oconeco.courageous.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A SearchConfiguration.
@@ -39,6 +40,9 @@ public class SearchConfiguration implements Serializable {
 
     @Column(name = "url")
     private String url;
+
+    @Column(name = "active")
+    private Boolean active;
 
     @Column(name = "params_json")
     private String paramsJson;
@@ -174,6 +178,14 @@ public class SearchConfiguration implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getParamsJson() {
@@ -384,19 +396,25 @@ public class SearchConfiguration implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "SearchConfiguration{" +
-            "id=" + getId() +
-            ", label='" + getLabel() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", defaultConfig='" + getDefaultConfig() + "'" +
-            ", url='" + getUrl() + "'" +
-            ", paramsJson='" + getParamsJson() + "'" +
-            ", headersJson='" + getHeadersJson() + "'" +
-            ", dateCreated='" + getDateCreated() + "'" +
-            ", lastUpdated='" + getLastUpdated() + "'" +
-            "}";
+            "id=" + id +
+            ", label='" + label + '\'' +
+            ", description='" + description + '\'' +
+            ", defaultConfig=" + defaultConfig +
+            ", url='" + url + '\'' +
+            ", active=" + active +
+            ", paramsJson='" + paramsJson + '\'' +
+            ", headersJson='" + headersJson + '\'' +
+            ", dateCreated=" + dateCreated +
+            ", lastUpdated=" + lastUpdated +
+            ", tags=" + tags +
+            ", comments=" + comments +
+            ", analyzers=" + analyzers +
+            ", createdBy=" + createdBy +
+            ", searches=" + searches +
+            '}';
     }
+
 }

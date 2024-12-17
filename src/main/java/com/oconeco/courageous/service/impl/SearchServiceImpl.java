@@ -13,19 +13,21 @@ import com.oconeco.courageous.service.SearchConfigurationService;
 import com.oconeco.courageous.service.SearchService;
 import com.oconeco.courageous.service.dto.BraveSearchResponseDTO;
 import com.oconeco.courageous.service.dto.BraveSearchResultDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import static com.oconeco.courageous.service.impl.BraveSearchClientImpl.MAX_SEARCH_RESULTS;
 
 /**
  * Service Implementation for managing {@link Search}.
@@ -34,8 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SearchServiceImpl implements SearchService {
 
-    @Value("${brave.search.api.results}")
-    private int MAX_RESULTS;
 
     private final FetcherService fetcherService;
 
@@ -146,14 +146,9 @@ public class SearchServiceImpl implements SearchService {
         // Extract the first configuration and its headersJson
         SearchConfiguration config = searchConfigurationService.findById(new ArrayList<>(searchRequest.getConfigurations()).get(0).getId());
 
-        String headersJson = config.getHeadersJson();
-        if (headersJson == null || headersJson.isEmpty()) {
-            throw new IllegalStateException("Headers JSON cannot be null or empty");
-        }
+        BraveSearchResponseDTO apiResponse = braveSearchClient.search(searchRequest.getQuery(), config);
 
-        BraveSearchResponseDTO apiResponse = braveSearchClient.search(searchRequest.getQuery(), headersJson);
-
-        List<Content> contents = apiResponse.getResults().stream().limit(MAX_RESULTS).map(this::createContent).collect(Collectors.toList());
+        List<Content> contents = apiResponse.getResults().stream().limit(MAX_SEARCH_RESULTS).map(this::createContent).collect(Collectors.toList());
 
         SearchResult searchResult = saveSearchResult(searchRequest, apiResponse, contents, config);
 
