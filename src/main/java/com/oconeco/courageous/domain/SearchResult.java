@@ -3,12 +3,13 @@ package com.oconeco.courageous.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A SearchResult.
@@ -33,6 +34,9 @@ public class SearchResult implements Serializable {
 
     @Column(name = "type")
     private String type;
+
+    @Column(name = "active")
+    private Boolean active;
 
     @Column(name = "response_body")
     private String responseBody;
@@ -147,6 +151,14 @@ public class SearchResult implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getResponseBody() {
@@ -370,17 +382,23 @@ public class SearchResult implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "SearchResult{" +
-            "id=" + getId() +
-            ", query='" + getQuery() + "'" +
-            ", type='" + getType() + "'" +
-            ", responseBody='" + getResponseBody() + "'" +
-            ", statusCode=" + getStatusCode() +
-            ", dateCreated='" + getDateCreated() + "'" +
-            ", lastUpdated='" + getLastUpdated() + "'" +
-            "}";
+            "id=" + id +
+            ", query='" + query + '\'' +
+            ", type='" + type + '\'' +
+            ", active=" + active +
+            ", responseBody='" + responseBody + '\'' +
+            ", statusCode=" + statusCode +
+            ", dateCreated=" + dateCreated +
+            ", lastUpdated=" + lastUpdated +
+            ", contents=" + contents +
+            ", tags=" + tags +
+            ", comments=" + comments +
+            ", analyzers=" + analyzers +
+            ", config=" + config +
+            ", search=" + search +
+            '}';
     }
 }

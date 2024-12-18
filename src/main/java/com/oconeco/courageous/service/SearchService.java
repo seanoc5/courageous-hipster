@@ -2,10 +2,11 @@ package com.oconeco.courageous.service;
 
 import com.oconeco.courageous.domain.Search;
 import com.oconeco.courageous.domain.SearchResult;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Interface for managing {@link com.oconeco.courageous.domain.Search}.
@@ -71,5 +72,5 @@ public interface SearchService {
      * @param searchRequest the request to search
      */
 
-    SearchResult performSearch(Search searchRequest);
+    List<SearchResult> performSearch(Search searchRequest);
 }

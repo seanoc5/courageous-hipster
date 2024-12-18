@@ -1,17 +1,17 @@
 package com.oconeco.courageous.repository;
 
 import com.oconeco.courageous.domain.Search;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Spring Data JPA repository for the Search entity.
- *
  * When extending this class, extend SearchRepositoryWithBagRelationships too.
  * For more information refer to https://github.com/jhipster/generator-jhipster/issues/17990.
  */
@@ -31,4 +31,8 @@ public interface SearchRepository extends SearchRepositoryWithBagRelationships, 
     default Page<Search> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    List<Search> findByActiveTrue();
+
+    Page<Search> findByActiveTrue(Pageable pageable);
 }

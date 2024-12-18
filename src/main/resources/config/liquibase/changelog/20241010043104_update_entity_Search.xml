@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Alter search table to add a new column 'active' -->
+    <changeSet id="20241010043104-add-active-column" author="radesh">
+        <addColumn tableName="search">
+            <column name="active" type="boolean" defaultValue="true">
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
