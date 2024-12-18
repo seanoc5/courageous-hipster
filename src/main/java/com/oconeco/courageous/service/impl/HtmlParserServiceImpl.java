@@ -8,25 +8,22 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.oconeco.courageous.service.impl.BraveSearchClientImpl.MAX_SEARCH_RESULTS;
 
 @Service
 public class HtmlParserServiceImpl implements HtmlParserService {
 
 
     @Override
-    public BraveSearchResponseDTO parseHtmlToDTO(String htmlContent) throws IOException {
+    public BraveSearchResponseDTO parseHtmlToDTO(String htmlContent) {
         Document document = Jsoup.parse(htmlContent);
 
         List<BraveSearchResultDTO> results = new ArrayList<>();
 
         for (Element resultElement : document.select("div.snippet")) {
 
-            if (results.size() > MAX_SEARCH_RESULTS) break;
             String title = resultElement.select("div.title").text();
             String url = resultElement.select("a").attr("href");
 

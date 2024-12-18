@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oconeco.courageous.domain.SearchConfiguration;
 import com.oconeco.courageous.service.BraveSearchClient;
 import com.oconeco.courageous.service.ParserService;
-import com.oconeco.courageous.service.constants.HttpHeadersConstants;
 import com.oconeco.courageous.service.dto.BraveSearchResponseDTO;
 import com.oconeco.courageous.web.rest.errors.SearchException;
 import org.slf4j.Logger;
@@ -21,7 +20,11 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class BraveSearchClientImpl implements BraveSearchClient {
 
-    public static int MAX_SEARCH_RESULTS;
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String SUBSCRIPTION_TOKEN = "X-Subscription-Token";
+    private static final String ACCEPT = "Accept";
+    private static final String BEARER_PREFIX = "Bearer ";
+    private static final String RESULT_COUNT = "count";
 
     private static final Logger LOG = LoggerFactory.getLogger(BraveSearchClientImpl.class);
     private final RestTemplate restTemplate;
@@ -38,16 +41,16 @@ public class BraveSearchClientImpl implements BraveSearchClient {
             throw new IllegalArgumentException("Invalid search configuration or headers JSON.");
         }
 
-        // Extract the X-Subscription-Token from headersJson
         String subscriptionToken;
+        int resultCount;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(config.getHeadersJson());
-            subscriptionToken = jsonNode.get(HttpHeadersConstants.SUBSCRIPTION_TOKEN).asText();
-            LOG.debug("{} : {}", HttpHeadersConstants.SUBSCRIPTION_TOKEN, subscriptionToken);
+            subscriptionToken = jsonNode.get(SUBSCRIPTION_TOKEN).asText();
+            LOG.debug("{} : {}", SUBSCRIPTION_TOKEN, subscriptionToken);
             JsonNode paramNode = objectMapper.readTree(config.getParamsJson());
-            if (paramNode.has(HttpHeadersConstants.RESULT_COUNT)) {
-                MAX_SEARCH_RESULTS = paramNode.get(HttpHeadersConstants.RESULT_COUNT).asInt();
+            if (paramNode.has(RESULT_COUNT)) {
+                resultCount = paramNode.get(RESULT_COUNT).asInt();
             } else {
                 throw new IllegalArgumentException("Missing 'count' field in paramsJson");
             }
@@ -56,16 +59,16 @@ public class BraveSearchClientImpl implements BraveSearchClient {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeadersConstants.AUTHORIZATION, HttpHeadersConstants.BEARER_PREFIX + subscriptionToken);
-        headers.set(HttpHeadersConstants.SUBSCRIPTION_TOKEN, subscriptionToken);
+        headers.set(AUTHORIZATION, BEARER_PREFIX + subscriptionToken);
+        headers.set(SUBSCRIPTION_TOKEN, subscriptionToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set(HttpHeadersConstants.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        headers.set(ACCEPT, MediaType.APPLICATION_JSON_VALUE);
 
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         ResponseEntity<String> response = restTemplate.exchange(
-            config.getUrl() + "?q=" + encodedQuery,
+            config.getUrl() + "?q=" + encodedQuery + "&count=" + resultCount,
             HttpMethod.GET,
             entity,
             String.class

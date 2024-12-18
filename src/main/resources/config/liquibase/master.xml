@@ -39,4 +39,6 @@
     <include file="config/liquibase/changelog/20241203114300_update_entity_Content.xml"
              relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20241010043105_update_entity_SearchConfiguration.xml"/>
+    <include file="config/liquibase/changelog/20241010043104_update_entity_Search.xml"/>
+    <include file="config/liquibase/changelog/20241010043106_update_entity_SearchResult.xml"/>
 </databaseChangeLog>

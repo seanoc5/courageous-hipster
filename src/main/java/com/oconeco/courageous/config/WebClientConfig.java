@@ -15,11 +15,18 @@ import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import static com.oconeco.courageous.service.constants.FetcherConstants.*;
 
 
 @Configuration
 public class WebClientConfig {
+
+    private static final int THREAD_POOL_SIZE = 20;
+    private static final int TIMEOUT_MILLISECONDS = 15000;
+    private static final int CONNECTION_TIMEOUT_MILLISECONDS = 10000;
+    private static final int READ_WRITE_TIMEOUT_MILLISECONDS = 10000;
+    private static final int BUFFER_MEMORY_BYTES = 16 * 1024 * 1024;
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
+
 
     /**
      * Bean for Spring WebClient.

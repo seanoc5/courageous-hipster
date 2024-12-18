@@ -6,7 +6,6 @@ import com.oconeco.courageous.repository.ContentRepository;
 import com.oconeco.courageous.service.FetcherService;
 import com.oconeco.courageous.service.WebPageDownloadHtmlUnitService;
 import com.oconeco.courageous.service.WebPageDownloadWebClientService;
-import com.oconeco.courageous.service.constants.FetcherConstants;
 import lombok.extern.slf4j.Slf4j;
 import net.dankito.readability4j.Article;
 import net.dankito.readability4j.Readability4J;
@@ -37,6 +36,8 @@ import java.util.concurrent.Executor;
 public class FetcherServiceImpl implements FetcherService {
 
     private static final Logger LOG = LoggerFactory.getLogger(FetcherServiceImpl.class);
+    private static final String FILE_PREFIX = "content_";
+    private static final String FILE_EXTENSION = ".html";
 
     private final Executor taskExecutor;
     private final ContentRepository contentRepository;
@@ -160,7 +161,7 @@ public class FetcherServiceImpl implements FetcherService {
 
 
     private void saveHtmlToFile(Content content, String html) throws IOException {
-        Path filePath = Paths.get(contentDirectory, FetcherConstants.FILE_PREFIX + content.getId() + FetcherConstants.FILE_EXTENSION);
+        Path filePath = Paths.get(contentDirectory, FILE_PREFIX + content.getId() + FILE_EXTENSION);
         Files.createDirectories(filePath.getParent());
         Files.writeString(filePath, html);
     }

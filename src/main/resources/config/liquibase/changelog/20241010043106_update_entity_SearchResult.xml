@@ -3,9 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <!-- Alter search_configuration table to add a new column 'active' -->
-    <changeSet id="20241010043105-add-active-column" author="radesh">
-        <addColumn tableName="search_configuration">
+
+    <!-- Alter search_result table to add a new column 'active' -->
+    <changeSet id="20241010043106-add-active-column" author="radesh">
+        <addColumn tableName="search_result">
             <column name="active" type="boolean" defaultValue="true">
             </column>
         </addColumn>
