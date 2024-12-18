@@ -8,12 +8,6 @@ import com.oconeco.courageous.service.SearchService;
 import com.oconeco.courageous.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link com.oconeco.courageous.domain.Search}.
@@ -72,13 +74,12 @@ public class SearchResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated search,
      * or with status {@code 400 (Bad Request)} if the search is not valid,
      * or with status {@code 500 (Internal Server Error)} if the search couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public ResponseEntity<Search> updateSearch(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody Search search
-    ) throws URISyntaxException {
+    ) {
         LOG.debug("REST request to update Search : {}, {}", id, search);
         if (search.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -106,13 +107,12 @@ public class SearchResource {
      * or with status {@code 400 (Bad Request)} if the search is not valid,
      * or with status {@code 404 (Not Found)} if the search is not found,
      * or with status {@code 500 (Internal Server Error)} if the search couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Search> partialUpdateSearch(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Search search
-    ) throws URISyntaxException {
+    ) {
         LOG.debug("REST request to partial update Search partially : {}, {}", id, search);
         if (search.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -177,14 +177,20 @@ public class SearchResource {
     public ResponseEntity<Set<Content>> search(@Valid @RequestBody Search search) throws URISyntaxException {
         LOG.debug("REST request to Search : {}", search);
 
-        // Perform the search and retrieve the result
-        SearchResult result = searchService.performSearch(search);
+        // Perform the search and retrieve results for all configurations
+        List<SearchResult> searchResults = searchService.performSearch(search);
 
-        if (result == null || result.getContents() == null) {
+        // Consolidate all Content objects from the search results into a single set
+        Set<Content> allContents = searchResults.stream()
+            .flatMap(searchResult -> searchResult.getContents().stream())
+            .collect(Collectors.toSet());
+
+        if (allContents.isEmpty()) {
             throw new BadRequestAlertException("Search result is empty", ENTITY_NAME, "noresults");
         }
+
         return ResponseEntity.created(new URI("/api/searches/search"))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, search.getId().toString()))
-            .body(result.getContents());
+            .body(allContents);
     }
 }

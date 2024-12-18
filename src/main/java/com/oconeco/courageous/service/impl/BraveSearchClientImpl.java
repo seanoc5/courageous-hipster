@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -67,20 +68,33 @@ public class BraveSearchClientImpl implements BraveSearchClient {
         HttpEntity<String> entity = new HttpEntity<>("", headers);
 
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
-        ResponseEntity<String> response = restTemplate.exchange(
-            config.getUrl() + "?q=" + encodedQuery + "&count=" + resultCount,
-            HttpMethod.GET,
-            entity,
-            String.class
-        );
 
-        if (response.getBody() == null || response.getBody().isEmpty()) {
-            throw new SearchException("Empty or null response body");
-        }
+        int delay = 1000;
         try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                config.getUrl() + "?q=" + encodedQuery + "&count=" + resultCount,
+                HttpMethod.GET,
+                entity,
+                String.class
+            );
+
+            if (response.getBody() == null || response.getBody().isEmpty()) {
+                throw new SearchException("Empty or null response body");
+            }
             return htmlParserService.parseDTO(response.getBody());
+        } catch (HttpStatusCodeException e) {
+            if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+                LOG.warn("Rate limit exceeded, retrying in {}ms", delay);
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         } catch (IOException e) {
             throw new SearchException("Failed to parse search results", e);
         }
+
+        throw new SearchException("Rate limit exceeded, retries exhausted");
     }
 }

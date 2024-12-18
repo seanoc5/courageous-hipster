@@ -178,24 +178,54 @@ public class SearchServiceImpl implements SearchService {
      * To get data from brave client done with  restTemplate-> passed doc Jsoup.parse
      */
     @Override
-    public SearchResult performSearch(Search searchRequest) {
+    public List<SearchResult> performSearch(Search searchRequest) {
         if (searchRequest.getConfigurations().isEmpty()) {
             throw new IllegalArgumentException("Configurations cannot be empty");
         }
 
-        SearchConfiguration config = searchConfigurationService.findById(new ArrayList<>(searchRequest.getConfigurations()).get(0).getId());
+        if (searchRequest.getConfigurations().stream().anyMatch(config -> config.getId() == null)) {
+            throw new IllegalArgumentException("All configurations must have valid IDs");
+        }
 
-        BraveSearchResponseDTO apiResponse = braveSearchClient.search(searchRequest.getQuery(), config);
+        List<SearchResult> searchResults = new ArrayList<>();
 
-        List<Content> contents = apiResponse.getResults().stream()
-            .map(this::createContent).collect(Collectors.toList());
+        for (SearchConfiguration config : searchRequest.getConfigurations()) {
+            try {
+                SearchConfiguration currentConfig = searchConfigurationService.findById(config.getId());
+                if (currentConfig == null) {
+                    throw new IllegalStateException("Configuration with ID " + config.getId() + " not found");
+                }
 
-        SearchResult searchResult = saveSearchResult(searchRequest, apiResponse, contents, config);
+                LOG.debug("Performing search with configuration: {}", currentConfig.getId());
+                BraveSearchResponseDTO apiResponse = braveSearchClient.search(searchRequest.getQuery(), currentConfig);
 
-        fetcherService.fetchContentForSearch(searchResult);
+                if (apiResponse == null || apiResponse.getResults().isEmpty()) {
+                    LOG.warn("No results found for configuration {}", currentConfig.getId());
+                    continue;
+                }
 
-        return searchResult;
+                List<Content> contents = apiResponse.getResults().stream()
+                    .map(this::createContent)
+                    .collect(Collectors.toList());
+
+                SearchResult searchResult = saveSearchResult(searchRequest, apiResponse, contents, currentConfig);
+                fetcherService.fetchContentForSearch(searchResult);
+                searchResults.add(searchResult);
+
+                Thread.sleep(1000);
+
+            } catch (Exception e) {
+                LOG.error("Failed to process configuration {}: {}", config.getId(), e.getMessage(), e);
+            }
+        }
+
+        if (searchResults.isEmpty()) {
+            LOG.warn("No search results were generated for any configuration.");
+        }
+
+        return searchResults;
     }
+
 
     private Content createContent(BraveSearchResultDTO result) {
         return Content.builder()
@@ -216,12 +246,6 @@ public class SearchServiceImpl implements SearchService {
     ) {
         // Save the search entity first, if it is not already saved
         if (searchRequest.getId() == null) {
-            searchRequest.setActive(true);
-            searchRequest.setAdditionalParams(searchRequest.getAdditionalParams());
-            searchRequest.setDateCreated(Instant.now());
-            searchRequest.setLastUpdated(Instant.now());
-            searchRequest.createdBy(searchRequest.getCreatedBy());
-            searchRequest.setConfigurations(searchRequest.getConfigurations());
             searchRequest = searchRepository.save(searchRequest);
         }
         SearchResult searchResult = new SearchResult();

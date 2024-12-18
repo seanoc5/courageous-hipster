@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 /**
  * Service Implementation for managing {@link com.oconeco.courageous.domain.SearchResult}.
  */
