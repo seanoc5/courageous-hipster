@@ -192,7 +192,7 @@ jhipster:
     management-include-pattern: /management/**
     title: Courageous Search API
     description: Courageous Search API documentation
-    version: 0.0.1
+    version: 0.0.2
     terms-of-service-url:
     contact-name:
     contact-url:
