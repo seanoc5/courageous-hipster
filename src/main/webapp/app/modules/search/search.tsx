@@ -108,7 +108,19 @@ export const SearchComponent = () => {
           <ValidatedField type="text" name="search" onChange={e => setSearchQuery(e.target.value)}></ValidatedField>
         </Col>
         <Col md="3">
-          <Button color="primary" id="search" data-cy="searchbutton" onClick={handleSearch} disabled={searchQuery.length < 1}>
+          <Button
+            color="primary"
+            id="search"
+            data-cy="searchbutton"
+            onClick={() => {
+              // copy-pasta to fix linter problem, I don't fully grok it, but seems to make eslint happy(gradle was reporting a failed build because of handleSearch() returning a promise, that onclick cant handle???:
+              // https://stackoverflow.com/questions/77162846/eslint-reports-promise-returning-function-provided-to-attribute-where-a-void-re
+              void (async () => {
+                await handleSearch();
+              })();
+            }}
+            disabled={searchQuery.length < 1}
+          >
             <FontAwesomeIcon icon="search" />
             &nbsp; Search
           </Button>

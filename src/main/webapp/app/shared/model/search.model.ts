@@ -11,7 +11,7 @@ export interface ISearch {
   additionalParams?: string | null;
   dateCreated?: dayjs.Dayjs | null;
   lastUpdated?: dayjs.Dayjs | null;
-  configurations?: Array<ISearchConfiguration> | ISearchConfiguration | null; //TODO: Remove ISearchConfiguration after array integration
+  configurations?: Array<ISearchConfiguration> | ISearchConfiguration | null; // TODO: Remove ISearchConfiguration after array integration
   createdBy?: IUser | null;
   context?: IContext | null;
   type?: IThingType | null;
