@@ -60,4 +60,13 @@ export const App = () => {
   );
 };
 
+// Added a hot module replacement (HMR) to the App component. This will allow you to update the component without refreshing the page.
+// This is useful during development when you are making changes to the component and want to see the changes immediately.
+// suggested by copilot and "blindly" added by me SoC :-)
+if (module.hot) {
+  module.hot.accept('./shared/layout/footer/footer.tsx', () => {
+    // Handle the updated module
+  });
+}
+
 export default App;

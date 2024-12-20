@@ -169,6 +169,7 @@ public class Content implements Serializable {
         },
         allowSetters = true
     )
+    @Builder.Default
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

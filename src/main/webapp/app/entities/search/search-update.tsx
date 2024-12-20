@@ -117,7 +117,8 @@ export const SearchUpdate = () => {
       type: selectedType,
       tags: selectedTags,
     };
-    debugger;
+    // comment out the debugger line, because linting and testing complain about it ...?
+    // debugger;
     if (isNew) {
       dispatch(createEntity(entity));
     } else {

@@ -8,7 +8,7 @@ interface Option {
 
 interface EnhancedAutocompleteProps {
   value: any;
-  onChange: (event: React.ChangeEvent<{}>, newValue: any) => void;
+  onChange: (event: React.ChangeEvent<unknown>, newValue: unknown) => void;
   options: Option[];
   label: string;
   isMulti?: boolean;

@@ -21,6 +21,7 @@ entity Content {
     uri String required
   	/** snippets back from search engine, or summary from ML, or actual 'description' from author/publisher */
     description TextBlob
+    displayOrder Integer
 
     /** url or file path */
     path String

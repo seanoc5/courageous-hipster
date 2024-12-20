@@ -13,6 +13,11 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+## NOTE: define environment variables
+## ${DATABASE_NAME}, ${DATABASE_PASSWORD},
+## ${BRAVE_SEARCH_API_URL}, ${BRAVE_SEARCH_API_RESULTS}
+## ${CONTENT_DIR}
+## for placeholders below:
 logging:
   level:
     ROOT: INFO
@@ -54,7 +59,7 @@ spring:
     cache: false
 
 server:
-  port: 9999
+  port: 8080
 
 # ===================================================================
 # JHipster specific properties
