@@ -2,13 +2,14 @@ package com.oconeco.courageous.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Search.
@@ -30,6 +31,9 @@ public class Search implements Serializable {
     @NotNull
     @Column(name = "query", nullable = false)
     private String query;
+
+    @Column(name = "active")
+    private Boolean active;
 
     @Column(name = "additional_params")
     private String additionalParams;
@@ -135,6 +139,15 @@ public class Search implements Serializable {
     public void setQuery(String query) {
         this.query = query;
     }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
 
     public String getAdditionalParams() {
         return this.additionalParams;
@@ -341,15 +354,22 @@ public class Search implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Search{" +
-            "id=" + getId() +
-            ", query='" + getQuery() + "'" +
-            ", additionalParams='" + getAdditionalParams() + "'" +
-            ", dateCreated='" + getDateCreated() + "'" +
-            ", lastUpdated='" + getLastUpdated() + "'" +
-            "}";
+            "id=" + id +
+            ", query='" + query + '\'' +
+            ", active=" + active +
+            ", additionalParams='" + additionalParams + '\'' +
+            ", dateCreated=" + dateCreated +
+            ", lastUpdated=" + lastUpdated +
+            ", searchResults=" + searchResults +
+            ", tags=" + tags +
+            ", comments=" + comments +
+            ", configurations=" + configurations +
+            ", createdBy=" + createdBy +
+            ", context=" + context +
+            ", type=" + type +
+            '}';
     }
 }

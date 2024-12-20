@@ -43,7 +43,7 @@ spring:
       auto-commit: false
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev,faker
+    contexts: dev
   mail:
     host: localhost
     port: 25
@@ -104,13 +104,6 @@ jhipster:
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
-# application:
-brave:
-  search:
-    api:
-      url: ${BRAVE_SEARCH_API_URL}
-      results: ${BRAVE_SEARCH_API_RESULTS}
 
 # Path to store downloaded html
 location:

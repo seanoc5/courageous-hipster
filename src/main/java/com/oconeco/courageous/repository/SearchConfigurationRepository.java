@@ -1,9 +1,11 @@
 package com.oconeco.courageous.repository;
 
 import com.oconeco.courageous.domain.SearchConfiguration;
-import java.util.List;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Spring Data JPA repository for the SearchConfiguration entity.
@@ -15,4 +17,8 @@ public interface SearchConfigurationRepository extends JpaRepository<SearchConfi
         "select searchConfiguration from SearchConfiguration searchConfiguration where searchConfiguration.createdBy.login = ?#{authentication.name}"
     )
     List<SearchConfiguration> findByCreatedByIsCurrentUser();
+
+    List<SearchConfiguration> findByActiveTrue();
+
+    SearchConfiguration findByIdAndActiveTrue(Long id);
 }
