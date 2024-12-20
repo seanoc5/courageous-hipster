@@ -1,9 +1,9 @@
 {
   "name": "courageous-search",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "0.1.1",
   "private": true,
-  "description": "Description for Courageous Search",
-  "license": "UNLICENSED",
+  "description": "React front-end for Courageous Search app: https://github.com/seanoc5/courageous-hipster",
+  "license": "Apache-2.0",
   "scripts": {
     "app:start": "./gradlew",
     "app:up": "docker compose -f src/main/docker/app.yml up --wait",
