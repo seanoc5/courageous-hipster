@@ -1,6 +1,6 @@
 {
   "name": "courageous-search",
-  "version": "0.1.1",
+  "version": "0.0.1-SNAPSHOT",
   "private": true,
   "description": "React front-end for Courageous Search app: https://github.com/seanoc5/courageous-hipster",
   "license": "Apache-2.0",

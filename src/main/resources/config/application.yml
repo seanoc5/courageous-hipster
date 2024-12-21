@@ -23,12 +23,12 @@ spring:
 springdoc:
   api-docs:
     enabled: false
-
 # Added SoC 2024-12-20 based on chatcpy suggestion...
 app:
   name: CourageousSearch
   version: 0.1.1
   description: "JHipster/Spring Boot application for internet/intranet search users who want more control and ownership of their search process, experience, and feedback."
+
 ---
 management:
   endpoints:
