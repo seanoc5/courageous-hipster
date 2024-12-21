@@ -15,9 +15,9 @@ plugins {
 }
 
 group = "com.oconeco.courageous"
-version = "0.0.1-SNAPSHOT"
+version = "0.1.1"
 
-description = ""
+description = "CourageousSearch is a jhipster/spring-boot opensource application for 'search users' who want more control and power in their various internet/intranet search process and tools"
 
 sourceCompatibility=17
 targetCompatibility=17
@@ -184,6 +184,8 @@ dependencies {
 task cleanResources(type: Delete) {
     delete "build/resources"
 }
+
+
 
 
 compileJava.dependsOn processResources
